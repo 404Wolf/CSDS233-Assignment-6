@@ -161,30 +161,28 @@ public class AirportSystem {
      * @return Minimum spanning tree of the airport system.
      */
     public List<Edge> minimumSpanningTree(Vertex root) {
-        List<Edge> spanningTree = new LinkedList<>(root.edges);
+        List<Edge> spanningTree = new LinkedList<>();
 
-        Set<Vertex> radiatingVertexes = new HashSet<>();
-        root.edges.forEach(edge -> radiatingVertexes.add(edge.destination));
+        Set<Vertex> visitedVertexes = new HashSet<>();
+        visitedVertexes.add(root);
 
-        Journey optimalJourney = new Journey(null, null, Integer.MAX_VALUE);
-        Edge optimalJourneyPath = null;
-        while (spanningTree.size() != size()) {
-            // Add the minimum from any edge distance vertex to the spanning tree
-            for (Vertex radiatingVertex: radiatingVertexes)
-                for (Edge candidateEdge: radiatingVertex.edges)
-                    if (candidateEdge.distance < optimalJourney.pathDistance()) {
-                        optimalJourney = new Journey(
-                                candidateEdge.source,
-                                candidateEdge.destination,
-                                candidateEdge.distance
-                        );
-                        optimalJourneyPath = candidateEdge;
-                    }
+        Queue<Edge> radiatingEdges = new PriorityQueue<>();
+        radiatingEdges.addAll(root.edges);
 
-            assert optimalJourneyPath != null;
-            spanningTree.add(optimalJourneyPath);
-            optimalJourneyPath = null;
-            optimalJourney = new Journey(null, null, Integer.MAX_VALUE);
+        Edge edgeLastTravelled;
+        while (visitedVertexes.size() != size()) {
+            edgeLastTravelled = radiatingEdges.poll();
+
+            if (edgeLastTravelled != null) {
+                if (!visitedVertexes.contains(edgeLastTravelled.destination))
+                    spanningTree.add(edgeLastTravelled);
+
+                for (Edge edge : edgeLastTravelled.destination.edges) {
+                    if (!visitedVertexes.contains(edge.destination))
+                        radiatingEdges.add(edge);
+                }
+                visitedVertexes.add(edgeLastTravelled.destination);
+            };
         }
 
         return spanningTree;
@@ -224,6 +222,7 @@ public class AirportSystem {
             for (Edge radiatingEdge: pending.poll().edges) {
                 if (!visited.contains(radiatingEdge.destination)) {
                     pending.add(radiatingEdge.destination);
+                    visited.add(radiatingEdge.destination);
                     visited.add(radiatingEdge.source);
                     visitedIds.add(radiatingEdge.destination.id);
                 }
@@ -311,7 +310,7 @@ public class AirportSystem {
         }
     }
 
-    public static class Edge {
+    public static class Edge implements Comparable<Edge> {
         /**
          * The starting location of this edge as a string.
          */
@@ -352,6 +351,11 @@ public class AirportSystem {
                     ", destination='" + destination.id + '\'' +
                     ", distance=" + distance +
                     '}';
+        }
+
+        @Override
+        public int compareTo(Edge o) {
+            return distance - o.distance;
         }
     }
 }

@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="354c5ea3-8224-4836-b727-25d422d8fb90" name="Changes" comment="Add junit to classpath">
+    <list default="true" id="354c5ea3-8224-4836-b727-25d422d8fb90" name="Changes" comment="Implement shortest path method">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/main/AirportSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/main/AirportSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/main/AirportSystemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/main/AirportSystemTest.java" afterDir="false" />
     </list>
@@ -60,7 +59,7 @@
       <recent name="org.test" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AirportSystemTest.shortestDistance">
+  <component name="RunManager" selected="JUnit.AirportSystemTest.minimumSpanningTree">
     <configuration name="AirportSystemTest.addEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment6" />
       <extension name="coverage">
@@ -77,6 +76,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AirportSystemTest.breadthFirstSearch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.main" />
+      <option name="MAIN_CLASS_NAME" value="org.main.AirportSystemTest" />
+      <option name="METHOD_NAME" value="breadthFirstSearch" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AirportSystemTest.makeSystem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment6" />
       <extension name="coverage">
@@ -88,6 +103,22 @@
       <option name="PACKAGE_NAME" value="org.main" />
       <option name="MAIN_CLASS_NAME" value="org.main.AirportSystemTest" />
       <option name="METHOD_NAME" value="makeSystem" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirportSystemTest.minimumSpanningTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.main" />
+      <option name="MAIN_CLASS_NAME" value="org.main.AirportSystemTest" />
+      <option name="METHOD_NAME" value="minimumSpanningTree" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -111,6 +142,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AirportSystemTest.minimumSpanningTree" />
+        <item itemvalue="JUnit.AirportSystemTest.breadthFirstSearch" />
         <item itemvalue="JUnit.AirportSystemTest.shortestDistance" />
         <item itemvalue="JUnit.AirportSystemTest.makeSystem" />
         <item itemvalue="JUnit.AirportSystemTest.addEdge" />
@@ -198,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702013456000</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Implement shortest path method">
+      <option name="closed" value="true" />
+      <created>1702018942782</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1702018942782</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -211,7 +252,8 @@
     <MESSAGE value="Update README.md" />
     <MESSAGE value="Configure jetbrains" />
     <MESSAGE value="Add junit to classpath" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add junit to classpath" />
+    <MESSAGE value="Implement shortest path method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement shortest path method" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

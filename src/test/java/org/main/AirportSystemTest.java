@@ -1,5 +1,10 @@
 package org.main;
 
+import org.junit.jupiter.api.Test;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AirportSystemTest {
@@ -21,12 +26,12 @@ class AirportSystemTest {
         return system;
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void makeSystem() {
         System.out.println(makeTestSystem());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void shortestDistance() {
         assertEquals(60, makeTestSystem().shortestDistance("Detroit", "Toledo"));
         assertEquals(60, makeTestSystem().shortestDistance("Toledo", "Detroit"));
@@ -34,7 +39,35 @@ class AirportSystemTest {
         assertEquals(0, makeTestSystem().shortestDistance("Chicago", "Chicago"));
         assertEquals(334, makeTestSystem().shortestDistance("Columbus", "Buffalo"));
         assertEquals(368, makeTestSystem().shortestDistance("Detroit", "Indianapolis"));
+        assertNotEquals(369, makeTestSystem().shortestDistance("Detroit", "Indianapolis"));
     }
 
+    @Test
+    void breadthFirstSearch() {
+        AirportSystem system = makeTestSystem();
+        List<String> searchListOrder = system.breadthFirstSearch("Buffalo");
 
+        assertEquals("Buffalo", searchListOrder.get(0));
+        assertEquals("Cleveland", searchListOrder.get(1));
+        assertEquals("Pittsburgh", searchListOrder.get(2));
+        assertEquals("Columbus", searchListOrder.get(3));
+        assertEquals("Toledo", searchListOrder.get(4));
+        assertEquals("Cincinnati", searchListOrder.get(5));
+        assertEquals("Chicago", searchListOrder.get(6));
+        assertEquals("Detroit", searchListOrder.get(7));
+        assertEquals("Indianapolis", searchListOrder.get(8));
+    }
+
+    @Test
+    void minimumSpanningTree() {
+        AirportSystem system = makeTestSystem();
+        List<AirportSystem.Edge> minimumSpanningTree = system.minimumSpanningTree("Buffalo");
+        minimumSpanningTree.forEach(System.out::println);
+
+        int totalPathLength = 0;
+        for (AirportSystem.Edge edge : minimumSpanningTree) {
+            totalPathLength += edge.getDistance();
+        }
+        assertEquals(1038, totalPathLength);
+    }
 }
