@@ -16,6 +16,13 @@ public class AirportSystem {
     }
 
     /**
+     * A specific airport connection.
+     *
+     * @return The connection with the requested name.
+     */
+    public Vertex getConnection(String connection) { return connections.get(connection); }
+
+    /**
      * Obtain the number of vertexes in the Airport system.
      *
      * @return Number of vertexes in the airport system.
@@ -34,7 +41,7 @@ public class AirportSystem {
      * added.
      */
     public boolean addEdge (String source, String destination, int weight) {
-        if (weight < 0)
+        if (weight < 0 || source.equals(destination))
             return false;
 
         Vertex sourceVertex;
@@ -50,7 +57,7 @@ public class AirportSystem {
         if (connections.containsKey(destination))
             destinationVertex = connections.get(destination);
         else
-            destinationVertex = new Vertex(source);
+            destinationVertex = new Vertex(destination);
         
         // Check if the sourceVertex already has a connection to the destinationVertex
         for (Edge edge : sourceVertex.edges)
@@ -58,13 +65,12 @@ public class AirportSystem {
                 return false;
 
         // Add the vertexes to the main list of vertexes that we are keeping track of
-        Edge edge = new Edge(sourceVertex, destinationVertex, weight);
-        connections.put(edge.source.id, edge.source);
-        connections.put(edge.destination.id, edge.destination);
+        connections.put(sourceVertex.id, sourceVertex);
+        connections.put(destinationVertex.id, destinationVertex);
 
         // Add the edges to the vertexes
-        sourceVertex.addEdge(edge);
-        destinationVertex.addEdge(edge);
+        sourceVertex.addEdge(new Edge(sourceVertex, destinationVertex, weight));
+        destinationVertex.addEdge(new Edge(destinationVertex, sourceVertex, weight));
         
         return true;
     }
@@ -78,14 +84,18 @@ public class AirportSystem {
      * @return The shortest distance between the two.
      */
     public int shortestDistance(Vertex cityA, Vertex cityB) {
+        if (cityA == cityB)
+            return 0;
+
         int shortestDistSoFar = Integer.MAX_VALUE;
 
         Queue<Journey> pending = new PriorityQueue<>() {
             private final Set<Vertex> visited = new HashSet<>();
 
+            { visited.add(cityA); }
+
             public boolean add(Journey journey) {
-                // When we add an element note the start as a vertex that we have visited.
-                if (visited.contains(journey.endingVertex))
+                if (journey == null)
                     return false;
                 visited.add(journey.parentVertex());
                 return super.add(journey);
@@ -96,38 +106,44 @@ public class AirportSystem {
                 // Since we only want unvisited vertexes we keep polling until a vertex that is not in the visited set
                 // has been found.
                 Journey path = super.poll();
-                if (path == null)
-                    return null;
 
                 // Keep polling until path with unvisited ending vertex is found.
                 while (true) {
-                    assert path != null;
-                    if (!visited.contains(path.endingVertex)) break;
+                    if (path == null) return null;
+                    if (!visited.contains(path.endingVertex)) {
+                        visited.add(path.endingVertex);
+                        return path;
+                    };
                     path = super.poll();
                 }
-
-                return path;
             }
         };
-        pending.add(new Journey(null, cityA, 0));
+        Journey newPath;
+        for (Edge edge : cityA.edges) {
+            newPath = new Journey(cityA, edge.destination, edge.distance);
+            pending.add(newPath);
+            if (newPath.pathDistance() < shortestDistSoFar && edge.destination == cityB)
+                shortestDistSoFar = newPath.pathDistance();
+        }
 
         Journey currentPath;
-        Journey newPath;
         // While there are still paths that we must explore
         while (!pending.isEmpty()) {
             // Pop the shortest path with a visitable end node off the heap of pending paths
             currentPath = pending.poll();
-            assert currentPath != null;
+            if (currentPath == null)
+                break;
 
             // Add all the edges of that path to the heap
             for (Edge radiatingEdge: currentPath.endingVertex.edges) {
                 newPath = new Journey(
-                        radiatingEdge.destination,
                         radiatingEdge.source,
+                        radiatingEdge.destination,
                         currentPath.pathDistance() + radiatingEdge.distance
                 );
                 pending.add(newPath);
-                shortestDistSoFar = Math.min(shortestDistSoFar, newPath.pathDistance());
+                if (radiatingEdge.destination == cityB)
+                    shortestDistSoFar = Math.min(shortestDistSoFar, newPath.pathDistance());
             }
         }
 
@@ -250,9 +266,9 @@ public class AirportSystem {
 
             for (Edge edge: vertex.edges)
                 output.append("[")
-                        .append(edge.source)
+                        .append(edge.source.id)
                         .append(", ")
-                        .append(edge.destination)
+                        .append(edge.destination.id)
                         .append("]");
 
             output.append("\n");
@@ -284,6 +300,8 @@ public class AirportSystem {
             edges.add(edge);
         }
 
+        public List<Edge> getEdges() { return edges; }
+
         @Override
         public String toString() {
             return "Vertex{" +
@@ -313,6 +331,18 @@ public class AirportSystem {
             this.source = source;
             this.destination = destination;
             this.distance = distance;
+        }
+
+        public Vertex getSource() {
+            return source;
+        }
+
+        public Vertex getDestination() {
+            return destination;
+        }
+
+        public int getDistance() {
+            return distance;
         }
 
         @Override
