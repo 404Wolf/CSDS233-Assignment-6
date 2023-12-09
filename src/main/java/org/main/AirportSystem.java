@@ -87,14 +87,18 @@ public class AirportSystem {
         if (cityA == cityB)
             return 0;
 
+        // By default, the best distance is infinite, but this will quickly get updated.
         int shortestDistSoFar = Integer.MAX_VALUE;
 
+        // We will use a customized priority queue that automatically keeps track of visited nodes
         Queue<Journey> pending = new PriorityQueue<>() {
             private final Set<Vertex> visited = new HashSet<>();
 
+            // Add the root node to the visited list at initiation
             { visited.add(cityA); }
 
             public boolean add(Journey journey) {
+                // When we add a journey make sure that the journey does not already exist in the visited set
                 if (journey == null)
                     return false;
                 visited.add(journey.parentVertex());
@@ -120,8 +124,12 @@ public class AirportSystem {
         };
         Journey newPath;
         for (Edge edge : cityA.edges) {
+            // We will visit the shortest journey from the origin node to a node that has not yet been visited. The
+            // priority queue is customized to automatically keep track of nods that have already been visited.
             newPath = new Journey(cityA, edge.destination, edge.distance);
             pending.add(newPath);
+
+            // Update the shortest distance that we have so far found to the destination node if needed
             if (newPath.pathDistance() < shortestDistSoFar && edge.destination == cityB)
                 shortestDistSoFar = newPath.pathDistance();
         }
@@ -161,28 +169,38 @@ public class AirportSystem {
      * @return Minimum spanning tree of the airport system.
      */
     public List<Edge> minimumSpanningTree(Vertex root) {
+        // The output minimal spanning tree
         List<Edge> spanningTree = new LinkedList<>();
 
+        // Maintain a list of visited vertexes we do not double count vertexes
         Set<Vertex> visitedVertexes = new HashSet<>();
         visitedVertexes.add(root);
 
+        // Maintain a list of all the edges that we are allowed to traverse at any point.
+        // Edges implement comparable and sort based on distance, and with Prims we want to always choose the shortest
+        // allowed edge, so this works for finding the minimum spanning tree.
         Queue<Edge> radiatingEdges = new PriorityQueue<>();
-        radiatingEdges.addAll(root.edges);
+        radiatingEdges.addAll(root.edges);  // Initiate radiatingEdges with the root's edges
+        // (the only initial candidates)
 
         Edge edgeLastTravelled;
+        // We continue until we have visited all vertexes (but we need not visit all edges)
         while (visitedVertexes.size() != size()) {
+            // Get the shortest edge that we are allowed to travel to
             edgeLastTravelled = radiatingEdges.poll();
 
-            if (edgeLastTravelled != null) {
-                if (!visitedVertexes.contains(edgeLastTravelled.destination))
-                    spanningTree.add(edgeLastTravelled);
+            // From this edge that we have just traversed, if we haven't visited the vertex at the end of it yet, we can
+            // now do so.
+            if (!visitedVertexes.contains(edgeLastTravelled.destination))
+                spanningTree.add(edgeLastTravelled);
 
-                for (Edge edge : edgeLastTravelled.destination.edges) {
-                    if (!visitedVertexes.contains(edge.destination))
-                        radiatingEdges.add(edge);
-                }
-                visitedVertexes.add(edgeLastTravelled.destination);
-            };
+            // Then add all the edges of destination vertex to the pending priority queue
+            for (Edge edge : edgeLastTravelled.destination.edges) {
+                if (!visitedVertexes.contains(edge.destination))
+                    radiatingEdges.add(edge);
+            }
+            // Add the destination to the visitedVertexes tracker, so we don't visit it twice.
+            visitedVertexes.add(edgeLastTravelled.destination);
         }
 
         return spanningTree;
@@ -258,11 +276,15 @@ public class AirportSystem {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
+
+        // Iterate over all the connections and build the string with the requested format
         for (Vertex vertex : connections.values()) {
+            // Add the current vertex to the output
             output.append("V: ")
                     .append(vertex.id)
                     .append(" | E: ");
 
+            // Add its edges to the output
             for (Edge edge: vertex.edges)
                 output.append("[")
                         .append(edge.source.id)
@@ -303,10 +325,7 @@ public class AirportSystem {
 
         @Override
         public String toString() {
-            return "Vertex{" +
-                    "id='" + id + '\'' +
-                    ", edges=" + edges +
-                    '}';
+            return id;
         }
     }
 
@@ -346,11 +365,7 @@ public class AirportSystem {
 
         @Override
         public String toString() {
-            return "Edge{" +
-                    "source='" + source.id + '\'' +
-                    ", destination='" + destination.id + '\'' +
-                    ", distance=" + distance +
-                    '}';
+            return "[" + source.id + ", " + destination.id + "]";
         }
 
         @Override

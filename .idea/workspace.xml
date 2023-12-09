@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="354c5ea3-8224-4836-b727-25d422d8fb90" name="Changes" comment="Implement shortest path method">
+    <list default="true" id="354c5ea3-8224-4836-b727-25d422d8fb90" name="Changes" comment="Implement minimum spanning tree method">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/main/AirportSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/main/AirportSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/main/AirportSystemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/main/AirportSystemTest.java" afterDir="false" />
     </list>
@@ -59,8 +60,8 @@
       <recent name="org.test" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AirportSystemTest.minimumSpanningTree">
-    <configuration name="AirportSystemTest.addEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AirportSystemTest">
+    <configuration name="AirportSystemTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Assignment6" />
       <extension name="coverage">
         <pattern>
@@ -70,8 +71,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.main" />
       <option name="MAIN_CLASS_NAME" value="org.main.AirportSystemTest" />
-      <option name="METHOD_NAME" value="addEdge" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -142,11 +142,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AirportSystemTest.minimumSpanningTree" />
+        <item itemvalue="JUnit.AirportSystemTest" />
         <item itemvalue="JUnit.AirportSystemTest.breadthFirstSearch" />
         <item itemvalue="JUnit.AirportSystemTest.shortestDistance" />
         <item itemvalue="JUnit.AirportSystemTest.makeSystem" />
-        <item itemvalue="JUnit.AirportSystemTest.addEdge" />
+        <item itemvalue="JUnit.AirportSystemTest.minimumSpanningTree" />
       </list>
     </recent_temporary>
   </component>
@@ -239,7 +239,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702018942782</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Implement minimum spanning tree method">
+      <option name="closed" value="true" />
+      <created>1702077538219</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1702077538219</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -253,18 +261,10 @@
     <MESSAGE value="Configure jetbrains" />
     <MESSAGE value="Add junit to classpath" />
     <MESSAGE value="Implement shortest path method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement shortest path method" />
+    <MESSAGE value="Implement minimum spanning tree method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement minimum spanning tree method" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/main/AirportSystem.java</url>
-          <line>143</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
         <watch expression="newPath" />
